@@ -1,6 +1,7 @@
 package com.gollersoft.ld29;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.physics.box2d.*;
 
 /**
@@ -79,7 +80,7 @@ public class Living {
     }
 
 
-    public void render() {
+    public void render(Batch batch) {
 
     }
 

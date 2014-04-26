@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -198,9 +199,12 @@ public class MoveAroundScene implements Scene {
         randomCarbohydrateAdder.step();
         randomAlcoholAdder.step();
         world.step(1 / 60f, 6, 2);
-        livingManager.render();
+
         camera.update();
         batch.setProjectionMatrix(camera.combined);
+        batch.begin();
+        livingManager.render(batch);
+        batch.end();
 
         batch.setProjectionMatrix(fontCamera.combined);
         batch.begin();

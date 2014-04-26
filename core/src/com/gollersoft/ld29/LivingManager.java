@@ -1,6 +1,7 @@
 package com.gollersoft.ld29;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Batch;
 
 import java.util.AbstractMap;
 import java.util.HashMap;
@@ -62,9 +63,9 @@ public class LivingManager {
         }
     }
 
-    public void render() {
+    public void render(Batch batch) {
         for (Living living: livingSet) {
-            living.render();
+            living.render(batch);
         }
     }
 }
