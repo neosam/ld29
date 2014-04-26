@@ -68,7 +68,6 @@ public class Living {
         finalVelX = Math.max(finalVelX, -maxVelocity);
         finalVelY = Math.max(finalVelY, -maxVelocity);
         body.setLinearVelocity(finalVelX, finalVelY);
-        Gdx.app.debug("velocity", velX + "," + velY);
     }
 
     public void step() {
@@ -79,6 +78,10 @@ public class Living {
 
     public void render() {
 
+    }
+
+    public void setPosition(float x, float y) {
+        body.setTransform(x, y, 0);
     }
 
     float getX() {

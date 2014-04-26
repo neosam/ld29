@@ -38,31 +38,31 @@ public class MoveAroundScene implements Scene {
         debugRenderer = new Box2DDebugRenderer();
         livingManager = new LivingManager();
         livingManager.addLiving("player", player);
-        randomLivingAdder = new RandomLivingAdder(Living.class, livingManager, world);
+        randomLivingAdder = new RandomLivingAdder(Living.class, livingManager, world, cameraSize, borderSize);
         addBorderTop();
         addBorderBottom();
         addBorderLeft();
         addBorderRight();
 
         Gdx.input.setInputProcessor(new InputAdapter() {
-            @Override
-            public boolean keyDown(int keycode) {
-                switch (keycode) {
-                    case Input.Keys.LEFT:
-                        player.setMoveLeft(true);
-                        return true;
-                    case Input.Keys.RIGHT:
-                        player.setMoveRight(true);
-                        return true;
-                    case Input.Keys.UP:
-                        player.setMoveUp(true);
-                        return true;
-                    case Input.Keys.DOWN:
-                        player.setMoveDown(true);
-                        return true;
+                @Override
+                public boolean keyDown(int keycode) {
+                    switch (keycode) {
+                        case Input.Keys.LEFT:
+                            player.setMoveLeft(true);
+                            return true;
+                        case Input.Keys.RIGHT:
+                            player.setMoveRight(true);
+                            return true;
+                        case Input.Keys.UP:
+                            player.setMoveUp(true);
+                            return true;
+                        case Input.Keys.DOWN:
+                            player.setMoveDown(true);
+                            return true;
+                    }
+                    return false;
                 }
-                return false;
-            }
 
             @Override
             public boolean keyUp(int keycode) {
