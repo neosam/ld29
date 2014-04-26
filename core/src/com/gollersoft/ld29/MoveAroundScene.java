@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -78,7 +79,8 @@ public class MoveAroundScene implements Scene {
 
     @Override
     public void render() {
-        Gdx.app.debug("MoveAroundScene", "rendering");
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         livingManager.step();
         world.step(1/60f, 6, 2);
         livingManager.render();
@@ -93,6 +95,9 @@ public class MoveAroundScene implements Scene {
     public void resize(int width, int height) {
         Gdx.app.debug("MoveAroundScene", "resize");
         camera.setToOrtho(true, cameraSize, cameraSize * height / width);
+        camera.position.x = - cameraSize / 2;
+        camera.position.y = - cameraSize * height / width / 2;
+        camera.update();
     }
 
     @Override

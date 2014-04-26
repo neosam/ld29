@@ -14,8 +14,8 @@ public class Living {
             moveUp = false,
             moveDown = false;
 
-    private float maxVelocity = 1000;
-    private float moveAcceleration = 20;
+    private float maxVelocity = 4;
+    private float moveAcceleration = 40;
 
     public Living(World world) {
         initializeBody(world);
@@ -31,7 +31,7 @@ public class Living {
 
         body = world.createBody(bodyDef);
         CircleShape circle = new CircleShape();
-        circle.setRadius(0.5f);
+        circle.setRadius(0.25f);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circle;
@@ -40,6 +40,7 @@ public class Living {
         fixtureDef.restitution = 0.6f;
 
         Fixture fixture = body.createFixture(fixtureDef);
+        body.setLinearDamping(maxVelocity);
         circle.dispose();
     }
 
