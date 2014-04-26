@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -30,6 +31,8 @@ public class MoveAroundScene implements Scene {
     private SpriteBatch batch;
     private int alcoholContent = 0;
     private SceneManager sceneManager;
+    private Texture background;
+    private int width, height;
 
     public MoveAroundScene(String name) {
         this.name = name;
@@ -56,6 +59,7 @@ public class MoveAroundScene implements Scene {
         font = new BitmapFont(new FileHandle("font.fnt"), new FileHandle("font.png"), false);
         fontCamera = new OrthographicCamera(1000, 1000);
         batch = new SpriteBatch();
+        background = new Texture("bg.png");
         addBorderTop();
         addBorderBottom();
         addBorderLeft();
@@ -215,6 +219,8 @@ public class MoveAroundScene implements Scene {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
+        //batch.draw(background, cameraSize / 2, cameraSize / 2, cameraSize, cameraSize);
+        batch.draw(background, -cameraSize / 2 * 2200 / 1080, -cameraSize / 2, cameraSize * 2200 / 1080, cameraSize);
         livingManager.render(batch);
         batch.end();
 
@@ -237,6 +243,8 @@ public class MoveAroundScene implements Scene {
         camera.position.x = 0;
         camera.position.y = 0;
         camera.update();
+        this.width = width;
+        this.height = height;
     }
 
     @Override
