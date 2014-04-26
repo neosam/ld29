@@ -130,7 +130,9 @@ public class MoveAroundScene implements Scene {
                     player.ateCarbohydrate();
                 }
                 if (collision == CollisionType.alcohol) {
-                    Gdx.app.log("MoveAroundScene", "You loose!");
+                    livingManager.markToRemove(living);
+                    player.hitAlcohol();
+                    alcoholContent--;
                 }
             }
 

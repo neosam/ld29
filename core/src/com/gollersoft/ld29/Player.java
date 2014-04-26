@@ -16,8 +16,12 @@ public class Player extends Living {
         points += 80;
     }
 
-        public int getPoints() {
-            return points;
+    public void hitAlcohol() {
+        points -= 1000;
+    }
+
+    public int getPoints() {
+        return points;
     }
 
     @Override
