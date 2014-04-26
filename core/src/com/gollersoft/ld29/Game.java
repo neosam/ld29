@@ -3,7 +3,6 @@ package com.gollersoft.ld29;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -20,6 +19,8 @@ public class Game extends ApplicationAdapter {
         sceneManager = new SceneManager();
         final Scene moveAroundScene = new MoveAroundScene("moveScene");
         sceneManager.registerScene(moveAroundScene);
+        final Scene endingScene = new EndingScreen("ending");
+        sceneManager.registerScene(endingScene);
         sceneManager.setActiveScene("moveScene");
 	}
 

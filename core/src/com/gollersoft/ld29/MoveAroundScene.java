@@ -6,7 +6,6 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -30,6 +29,7 @@ public class MoveAroundScene implements Scene {
     private BitmapFont font;
     private SpriteBatch batch;
     private int alcoholContent = 0;
+    private SceneManager sceneManager;
 
     public MoveAroundScene(String name) {
         this.name = name;
@@ -133,6 +133,7 @@ public class MoveAroundScene implements Scene {
                     livingManager.markToRemove(living);
                     player.hitAlcohol();
                     alcoholContent--;
+                    MoveAroundScene.this.looseCheck();
                 }
             }
 
@@ -151,6 +152,14 @@ public class MoveAroundScene implements Scene {
 
             }
         });
+    }
+
+    private void looseCheck() {
+        if (player.getPoints() < 0) {
+            final EndingScreen endlingScene = (EndingScreen) sceneManager.getScene("ending");
+            endlingScene.setAlcoholCounter(alcoholContent);
+            sceneManager.setActiveScene("ending");
+        }
     }
 
     private void addBorderBottom() {
@@ -197,6 +206,7 @@ public class MoveAroundScene implements Scene {
     public void render() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        looseCheck();
         livingManager.step();
         randomCarbohydrateAdder.step();
         randomAlcoholAdder.step();
@@ -211,7 +221,7 @@ public class MoveAroundScene implements Scene {
         batch.setProjectionMatrix(fontCamera.combined);
         batch.begin();
         font.draw(batch, player.getPoints() + "", 400, 450);
-        font.draw(batch, alcoholContent * 0.1 + "%", -400, 450);
+        font.draw(batch, String.format("%.2f %%", alcoholContent / 10f), -400, 450);
         batch.end();
         debugRenderer.render(world, camera.combined);
     }
@@ -227,6 +237,11 @@ public class MoveAroundScene implements Scene {
         camera.position.x = 0;
         camera.position.y = 0;
         camera.update();
+    }
+
+    @Override
+    public void setSceneManager(SceneManager sceneManager) {
+        this.sceneManager = sceneManager;
     }
 
     @Override

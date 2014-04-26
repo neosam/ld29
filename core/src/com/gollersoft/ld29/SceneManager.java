@@ -23,6 +23,7 @@ public class SceneManager {
      * @param scene
      */
     public void registerScene(Scene scene) {
+        scene.setSceneManager(this);
         sceneMap.put(scene.getName(), scene);
     }
 
@@ -32,6 +33,7 @@ public class SceneManager {
      */
     public void setActiveScene(String name) {
         final Scene scene = sceneMap.get(name);
+        Gdx.app.log("SceneManager", "Starting new scene: " + name);
         if (scene == null) {
             Gdx.app.error("SceneManager", "Could not load scene " + name);
             return;
@@ -49,5 +51,9 @@ public class SceneManager {
 
     public void resize(int width, int height) {
         activeScene.resize(width, height);
+    }
+
+    public Scene getScene(String name) {
+        return sceneMap.get(name);
     }
 }
