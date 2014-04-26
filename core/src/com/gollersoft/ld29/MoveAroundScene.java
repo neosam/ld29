@@ -46,7 +46,7 @@ public class MoveAroundScene implements Scene {
         livingManager.addLiving("player", player);
         randomCarbohydrateAdder = new RandomLivingAdder(Carbohydrate.class, livingManager, world, cameraSize, borderSize);
         randomAlcoholAdder = new RandomLivingAdder(Alcohol.class, livingManager, world, cameraSize, borderSize);
-        randomAlcoholAdder.possibility = randomCarbohydrateAdder.possibility / 10;
+        randomAlcoholAdder.possibility = randomCarbohydrateAdder.possibility / 5;
         randomAlcoholAdder.setRandomLivingAdderCallback(new RandomLivingAdderCallback() {
             @Override
             public void inserted() {
@@ -221,7 +221,7 @@ public class MoveAroundScene implements Scene {
         batch.setProjectionMatrix(fontCamera.combined);
         batch.begin();
         font.draw(batch, player.getPoints() + "", 400, 450);
-        font.draw(batch, String.format("%.2f %%", alcoholContent / 10f), -400, 450);
+        font.draw(batch, String.format("%.2f %%", alcoholContent / 5f), -400, 450);
         batch.end();
         debugRenderer.render(world, camera.combined);
     }

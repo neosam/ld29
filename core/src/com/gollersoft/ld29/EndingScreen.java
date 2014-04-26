@@ -37,7 +37,7 @@ public class EndingScreen implements Scene {
         batch.setProjectionMatrix(fontCamera.combined);
         batch.begin();
         font.draw(batch, String.format("You made beer with %.2f" +
-                "%% alcohol!  Prost!", alcoholCounter / 10f), -350, 0);
+                "%% alcohol!  Prost!", alcoholCounter / 5f), -350, 0);
         batch.end();
     }
 

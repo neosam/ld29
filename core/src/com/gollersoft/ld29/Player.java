@@ -17,7 +17,7 @@ public class Player extends Living {
     }
 
     public void hitAlcohol() {
-        points -= 1000;
+        points -= 750;
     }
 
     public int getPoints() {
