@@ -38,7 +38,7 @@ public class MoveAroundScene implements Scene {
         debugRenderer = new Box2DDebugRenderer();
         livingManager = new LivingManager();
         livingManager.addLiving("player", player);
-        randomLivingAdder = new RandomLivingAdder(Living.class, livingManager, world, cameraSize, borderSize);
+        randomLivingAdder = new RandomLivingAdder(Carbohydrate.class, livingManager, world, cameraSize, borderSize);
         addBorderTop();
         addBorderBottom();
         addBorderLeft();

@@ -10,14 +10,14 @@ import java.lang.reflect.InvocationTargetException;
  * Created by neosam on 26.04.14.
  */
 public class RandomLivingAdder {
-    private final Class<Living> livingClass;
+    private final Class livingClass;
     private LivingManager livingManager;
     private World world;
     float possibility = 0.005f;
     private float cameraSize;
     private float borderSize;
 
-    public RandomLivingAdder(Class<Living> livingClass, LivingManager livingManager, World world,
+    public RandomLivingAdder(Class livingClass, LivingManager livingManager, World world,
                              float cameraSize, float borderSize) {
         this.livingClass = livingClass;
         this.livingManager = livingManager;
