@@ -7,8 +7,9 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
+
+import java.util.Vector;
 
 /**
  * Created by neosam on 26.04.14.
@@ -18,6 +19,7 @@ public class MoveAroundScene implements Scene {
     private Player player;
     private OrthographicCamera camera;
     private float cameraSize = 10f;
+    private float borderSize = 0.25f;
     private String name;
     private Box2DDebugRenderer debugRenderer;
     private LivingManager livingManager;
@@ -37,6 +39,10 @@ public class MoveAroundScene implements Scene {
         livingManager = new LivingManager();
         livingManager.addLiving("player", player);
         randomLivingAdder = new RandomLivingAdder(Living.class, livingManager, world);
+        addBorderTop();
+        addBorderBottom();
+        addBorderLeft();
+        addBorderRight();
 
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
@@ -79,6 +85,46 @@ public class MoveAroundScene implements Scene {
         });
     }
 
+    private void addBorderBottom() {
+        BodyDef borderBodyDef = new BodyDef();
+        borderBodyDef.position.set(new Vector2(0, cameraSize / 2));
+        Body groundBody = world.createBody(borderBodyDef);
+        PolygonShape groundBox = new PolygonShape();
+        groundBox.setAsBox(cameraSize, borderSize);
+        groundBody.createFixture(groundBox, 0.0f);
+        groundBox.dispose();
+    }
+
+    private void addBorderTop() {
+        BodyDef borderBodyDef = new BodyDef();
+        borderBodyDef.position.set(new Vector2(0, -cameraSize / 2));
+        Body groundBody = world.createBody(borderBodyDef);
+        PolygonShape groundBox = new PolygonShape();
+        groundBox.setAsBox(cameraSize, borderSize);
+        groundBody.createFixture(groundBox, 0.0f);
+        groundBox.dispose();
+    }
+
+    private void addBorderLeft() {
+        BodyDef borderBodyDef = new BodyDef();
+        borderBodyDef.position.set(new Vector2(-cameraSize / 2, 0));
+        Body groundBody = world.createBody(borderBodyDef);
+        PolygonShape groundBox = new PolygonShape();
+        groundBox.setAsBox(borderSize, cameraSize);
+        groundBody.createFixture(groundBox, 0.0f);
+        groundBox.dispose();
+    }
+
+    private void addBorderRight() {
+        BodyDef borderBodyDef = new BodyDef();
+        borderBodyDef.position.set(new Vector2(cameraSize / 2, 0));
+        Body groundBody = world.createBody(borderBodyDef);
+        PolygonShape groundBox = new PolygonShape();
+        groundBox.setAsBox(borderSize, cameraSize);
+        groundBody.createFixture(groundBox, 0.0f);
+        groundBox.dispose();
+    }
+
     @Override
     public void render() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -97,7 +143,7 @@ public class MoveAroundScene implements Scene {
     @Override
     public void resize(int width, int height) {
         Gdx.app.debug("MoveAroundScene", "resize");
-        camera.setToOrtho(true, cameraSize, cameraSize * height / width);
+        camera.setToOrtho(true, cameraSize * width / height, cameraSize);
         camera.position.x = 0;
         camera.position.y = 0;
         camera.update();
