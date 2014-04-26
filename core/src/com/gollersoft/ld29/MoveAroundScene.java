@@ -98,8 +98,8 @@ public class MoveAroundScene implements Scene {
     public void resize(int width, int height) {
         Gdx.app.debug("MoveAroundScene", "resize");
         camera.setToOrtho(true, cameraSize, cameraSize * height / width);
-        camera.position.x = - cameraSize / 2;
-        camera.position.y = - cameraSize * height / width / 2;
+        camera.position.x = 0;
+        camera.position.y = 0;
         camera.update();
     }
 
