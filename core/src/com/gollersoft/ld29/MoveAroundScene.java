@@ -21,6 +21,7 @@ public class MoveAroundScene implements Scene {
     private String name;
     private Box2DDebugRenderer debugRenderer;
     private LivingManager livingManager;
+    private RandomLivingAdder randomLivingAdder;
 
     public MoveAroundScene(String name) {
         this.name = name;
@@ -35,6 +36,7 @@ public class MoveAroundScene implements Scene {
         debugRenderer = new Box2DDebugRenderer();
         livingManager = new LivingManager();
         livingManager.addLiving("player", player);
+        randomLivingAdder = new RandomLivingAdder(Living.class, livingManager, world);
 
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
@@ -82,6 +84,7 @@ public class MoveAroundScene implements Scene {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         livingManager.step();
+        randomLivingAdder.step();
         world.step(1/60f, 6, 2);
         livingManager.render();
         debugRenderer.render(world, camera.combined);
