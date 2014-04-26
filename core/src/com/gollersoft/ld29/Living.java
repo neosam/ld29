@@ -14,8 +14,8 @@ public class Living {
             moveUp = false,
             moveDown = false;
 
-    private float maxVelocity = 4;
-    private float moveAcceleration = 40;
+    private float maxVelocity = 6;
+    private float moveAcceleration = 160;
 
     public Living(World world) {
         initializeBody(world);
