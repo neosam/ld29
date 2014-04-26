@@ -13,9 +13,10 @@ public class RandomLivingAdder {
     private final Class livingClass;
     private LivingManager livingManager;
     private World world;
-    float possibility = 0.005f;
+    float possibility = 0.02f;
     private float cameraSize;
     private float borderSize;
+    private RandomLivingAdderCallback randomLivingAdderCallback;
 
     public RandomLivingAdder(Class livingClass, LivingManager livingManager, World world,
                              float cameraSize, float borderSize) {
@@ -44,9 +45,20 @@ public class RandomLivingAdder {
             final float posY = (float) (Math.random() * (maxY - minY) + minY);
             living.setPosition(posX, posY);
             livingManager.addLiving(living);
+            if (randomLivingAdderCallback != null) {
+                randomLivingAdderCallback.inserted();
+            }
         } catch (Exception ex) {
             Gdx.app.error("RandomLivingAdder", "Could not invocate the constructor");
         }
 
+    }
+
+    public RandomLivingAdderCallback getRandomLivingAdderCallback() {
+        return randomLivingAdderCallback;
+    }
+
+    public void setRandomLivingAdderCallback(RandomLivingAdderCallback randomLivingAdderCallback) {
+        this.randomLivingAdderCallback = randomLivingAdderCallback;
     }
 }

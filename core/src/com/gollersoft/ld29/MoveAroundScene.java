@@ -3,13 +3,13 @@ package com.gollersoft.ld29;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-
-import java.util.Vector;
 
 /**
  * Created by neosam on 26.04.14.
@@ -18,12 +18,17 @@ public class MoveAroundScene implements Scene {
     private World world;
     private Player player;
     private OrthographicCamera camera;
+    private OrthographicCamera fontCamera;
     private float cameraSize = 10f;
     private float borderSize = 0.25f;
     private String name;
     private Box2DDebugRenderer debugRenderer;
     private LivingManager livingManager;
-    private RandomLivingAdder randomLivingAdder;
+    private RandomLivingAdder randomCarbohydrateAdder;
+    private RandomLivingAdder randomAlcoholAdder;
+    private BitmapFont font;
+    private SpriteBatch batch;
+    private int alcoholContent = 0;
 
     public MoveAroundScene(String name) {
         this.name = name;
@@ -38,7 +43,18 @@ public class MoveAroundScene implements Scene {
         debugRenderer = new Box2DDebugRenderer();
         livingManager = new LivingManager();
         livingManager.addLiving("player", player);
-        randomLivingAdder = new RandomLivingAdder(Carbohydrate.class, livingManager, world, cameraSize, borderSize);
+        randomCarbohydrateAdder = new RandomLivingAdder(Carbohydrate.class, livingManager, world, cameraSize, borderSize);
+        randomAlcoholAdder = new RandomLivingAdder(Alcohol.class, livingManager, world, cameraSize, borderSize);
+        randomAlcoholAdder.possibility = randomCarbohydrateAdder.possibility / 10;
+        randomAlcoholAdder.setRandomLivingAdderCallback(new RandomLivingAdderCallback() {
+            @Override
+            public void inserted() {
+                alcoholContent++;
+            }
+        });
+        font = new BitmapFont(new FileHandle("font.fnt"), new FileHandle("font.png"), false);
+        fontCamera = new OrthographicCamera(1000, 1000);
+        batch = new SpriteBatch();
         addBorderTop();
         addBorderBottom();
         addBorderLeft();
@@ -97,16 +113,23 @@ public class MoveAroundScene implements Scene {
                 }
                 final CollisionType collision;
                 final Living living;
+                final Player player;
                 if (collision1 == CollisionType.player) {
                     collision = collision2;
                     living = (Living) userData2;
+                    player = (Player) userData1;
                 } else {
                     collision = collision1;
                     living = (Living) userData1;
+                    player = (Player) userData2;
                 }
 
                 if (collision == CollisionType.carbohydrate) {
                     livingManager.markToRemove(living);
+                    player.ateCarbohydrate();
+                }
+                if (collision == CollisionType.alcohol) {
+                    Gdx.app.log("MoveAroundScene", "You loose!");
                 }
             }
 
@@ -172,9 +195,18 @@ public class MoveAroundScene implements Scene {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         livingManager.step();
-        randomLivingAdder.step();
-        world.step(1/60f, 6, 2);
+        randomCarbohydrateAdder.step();
+        randomAlcoholAdder.step();
+        world.step(1 / 60f, 6, 2);
         livingManager.render();
+        camera.update();
+        batch.setProjectionMatrix(camera.combined);
+
+        batch.setProjectionMatrix(fontCamera.combined);
+        batch.begin();
+        font.draw(batch, player.getPoints() + "", 400, 450);
+        font.draw(batch, alcoholContent * 0.1 + "%", -400, 450);
+        batch.end();
         debugRenderer.render(world, camera.combined);
     }
 
