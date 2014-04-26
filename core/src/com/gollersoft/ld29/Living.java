@@ -7,7 +7,8 @@ import com.badlogic.gdx.physics.box2d.*;
  * Created by neosam on 26.04.14.
  */
 public class Living {
-    private Body body;
+    protected Body body;
+    private World world;
 
     private boolean moveRight = false,
             moveLeft = false,
@@ -26,6 +27,7 @@ public class Living {
      * @param world
      */
     void initializeBody(World world) {
+        this.world = world;
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
@@ -42,6 +44,7 @@ public class Living {
         Fixture fixture = body.createFixture(fixtureDef);
         body.setLinearDamping(maxVelocity);
         circle.dispose();
+        body.setUserData(this);
     }
 
     private void doMovement() {
@@ -138,5 +141,13 @@ public class Living {
 
     public void setMaxVelocity(float maxVelocity) {
         this.maxVelocity = maxVelocity;
+    }
+
+    public void remove() {
+        if (body == null) {
+            return;
+        }
+        world.destroyBody(body);
+        body = null;
     }
 }

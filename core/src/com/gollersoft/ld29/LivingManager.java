@@ -13,6 +13,7 @@ import java.util.Set;
 public class LivingManager {
     private final AbstractMap<String, Living> livingMap = new HashMap<String, Living>();
     private final Set<Living> livingSet = new HashSet<Living>();
+    private final Set<Living> removeNextStep = new HashSet<Living>();
 
 
     public void addLiving(String name, Living living) {
@@ -37,16 +38,25 @@ public class LivingManager {
         }
         final Living living = livingMap.remove(name);
         livingSet.remove(living);
+        living.remove();
         return living;
     }
 
     public Living removeLiving(Living living) {
         livingSet.remove(living);
+        living.remove();
         /* Map has a memory leak now... */
         return living;
     }
 
+    public void markToRemove(Living living) {
+        removeNextStep.add(living);
+    }
+
     public void step() {
+        for (Living living: removeNextStep) {
+            removeLiving(living);
+        }
         for (Living living: livingSet) {
             living.step();
         }

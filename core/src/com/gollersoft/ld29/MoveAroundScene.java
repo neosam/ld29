@@ -45,24 +45,24 @@ public class MoveAroundScene implements Scene {
         addBorderRight();
 
         Gdx.input.setInputProcessor(new InputAdapter() {
-                @Override
-                public boolean keyDown(int keycode) {
-                    switch (keycode) {
-                        case Input.Keys.LEFT:
-                            player.setMoveLeft(true);
-                            return true;
-                        case Input.Keys.RIGHT:
-                            player.setMoveRight(true);
-                            return true;
-                        case Input.Keys.UP:
-                            player.setMoveUp(true);
-                            return true;
-                        case Input.Keys.DOWN:
-                            player.setMoveDown(true);
-                            return true;
-                    }
-                    return false;
+            @Override
+            public boolean keyDown(int keycode) {
+                switch (keycode) {
+                    case Input.Keys.LEFT:
+                        player.setMoveLeft(true);
+                        return true;
+                    case Input.Keys.RIGHT:
+                        player.setMoveRight(true);
+                        return true;
+                    case Input.Keys.UP:
+                        player.setMoveUp(true);
+                        return true;
+                    case Input.Keys.DOWN:
+                        player.setMoveDown(true);
+                        return true;
                 }
+                return false;
+            }
 
             @Override
             public boolean keyUp(int keycode) {
@@ -81,6 +81,48 @@ public class MoveAroundScene implements Scene {
                         return true;
                 }
                 return false;
+            }
+        });
+
+        world.setContactListener(new ContactListener() {
+            @Override
+            public void beginContact(Contact contact) {
+                final Object userData1 = contact.getFixtureA().getBody().getUserData();
+                final Object userData2 = contact.getFixtureB().getBody().getUserData();
+                final CollisionType collision1 = CollisionType.getCollisionType(userData1);
+                final CollisionType collision2 = CollisionType.getCollisionType(userData2);
+                
+                if (collision1 != CollisionType.player && collision2 != CollisionType.player) {
+                    return;
+                }
+                final CollisionType collision;
+                final Living living;
+                if (collision1 == CollisionType.player) {
+                    collision = collision2;
+                    living = (Living) userData2;
+                } else {
+                    collision = collision1;
+                    living = (Living) userData1;
+                }
+
+                if (collision == CollisionType.carbohydrate) {
+                    livingManager.markToRemove(living);
+                }
+            }
+
+            @Override
+            public void endContact(Contact contact) {
+
+            }
+
+            @Override
+            public void preSolve(Contact contact, Manifold oldManifold) {
+
+            }
+
+            @Override
+            public void postSolve(Contact contact, ContactImpulse impulse) {
+
             }
         });
     }
