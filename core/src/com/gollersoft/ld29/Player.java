@@ -14,7 +14,9 @@ public class Player extends Living {
     public Player(World world) {
         super(world);
         texture = new Texture("hero.png");
-    }
+        body.getFixtureList().get(0).getShape().setRadius(0.15f);
+        body.getFixtureList().get(0).setDensity(2);
+}
 
     public void ateCarbohydrate() {
         points += 80;

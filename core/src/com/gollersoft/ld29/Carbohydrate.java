@@ -13,6 +13,8 @@ public class Carbohydrate extends Living {
     public Carbohydrate(World world) {
         super(world);
         texture = new Texture("apple.png");
+        body.getFixtureList().get(0).getShape().setRadius(0.35f);
+
     }
 
     @Override

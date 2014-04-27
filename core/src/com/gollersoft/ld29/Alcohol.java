@@ -13,6 +13,9 @@ public class Alcohol extends Living {
     public Alcohol(World world) {
         super(world);
         texture = new Texture("skull.png");
+        body.getFixtureList().get(0).getShape().setRadius(0.2f);
+
+
     }
 
     @Override

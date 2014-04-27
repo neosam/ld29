@@ -229,7 +229,7 @@ public class MoveAroundScene implements Scene {
         font.draw(batch, player.getPoints() + "", 400, 450);
         font.draw(batch, String.format("%.2f %%", alcoholContent / 5f), -400, 450);
         batch.end();
-        debugRenderer.render(world, camera.combined);
+        //debugRenderer.render(world, camera.combined);
     }
 
     @Override
@@ -239,7 +239,7 @@ public class MoveAroundScene implements Scene {
     @Override
     public void resize(int width, int height) {
         Gdx.app.debug("MoveAroundScene", "resize");
-        camera.setToOrtho(true, cameraSize * width / height, cameraSize);
+        camera.setToOrtho(false, cameraSize * width / height, cameraSize);
         camera.position.x = 0;
         camera.position.y = 0;
         camera.update();
