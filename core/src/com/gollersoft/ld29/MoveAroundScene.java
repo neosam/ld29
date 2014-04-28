@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
@@ -56,7 +57,8 @@ public class MoveAroundScene implements Scene {
                 alcoholContent++;
             }
         });
-        font = new BitmapFont(new FileHandle("font.fnt"), new FileHandle("font.png"), false);
+
+        font = new BitmapFont(Gdx.files.internal("font.fnt"), Gdx.files.internal("font.png"), false);
         fontCamera = new OrthographicCamera(1000, 1000);
         batch = new SpriteBatch();
         background = new Texture("bg.png");
@@ -70,15 +72,19 @@ public class MoveAroundScene implements Scene {
             public boolean keyDown(int keycode) {
                 switch (keycode) {
                     case Input.Keys.LEFT:
+                    case Input.Keys.A:
                         player.setMoveLeft(true);
                         return true;
                     case Input.Keys.RIGHT:
+                    case Input.Keys.D:
                         player.setMoveRight(true);
                         return true;
                     case Input.Keys.UP:
+                    case Input.Keys.W:
                         player.setMoveUp(true);
                         return true;
                     case Input.Keys.DOWN:
+                    case Input.Keys.S:
                         player.setMoveDown(true);
                         return true;
                 }
@@ -89,15 +95,19 @@ public class MoveAroundScene implements Scene {
             public boolean keyUp(int keycode) {
                 switch (keycode) {
                     case Input.Keys.LEFT:
+                    case Input.Keys.A:
                         player.setMoveLeft(false);
                         return true;
                     case Input.Keys.RIGHT:
+                    case Input.Keys.D:
                         player.setMoveRight(false);
                         return true;
                     case Input.Keys.UP:
+                    case Input.Keys.W:
                         player.setMoveUp(false);
                         return true;
                     case Input.Keys.DOWN:
+                    case Input.Keys.S:
                         player.setMoveDown(false);
                         return true;
                 }
@@ -229,7 +239,6 @@ public class MoveAroundScene implements Scene {
         font.draw(batch, player.getPoints() + "", 400, 450);
         font.draw(batch, String.format("%.2f %%", alcoholContent / 5f), -400, 450);
         batch.end();
-        //debugRenderer.render(world, camera.combined);
     }
 
     @Override

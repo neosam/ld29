@@ -21,7 +21,10 @@ public class Game extends ApplicationAdapter {
         sceneManager.registerScene(moveAroundScene);
         final Scene endingScene = new EndingScreen("ending");
         sceneManager.registerScene(endingScene);
-        sceneManager.setActiveScene("moveScene");
+        final Scene introScene = new IntroScene("intro");
+        sceneManager.registerScene(introScene);
+        sceneManager.setActiveScene("intro");
+        //sceneManager.setActiveScene("moveScene");
 	}
 
 	@Override

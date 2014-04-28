@@ -38,13 +38,13 @@ public class Living {
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circle;
-            fixtureDef.density = 0.1f;
-            fixtureDef.friction = 0.4f;
-            fixtureDef.restitution = 0.6f;
+        fixtureDef.density = 0.1f;
+        fixtureDef.friction = 0.4f;
+        fixtureDef.restitution = 0.6f;
 
-            Fixture fixture = body.createFixture(fixtureDef);
-            body.setLinearDamping(maxVelocity);
-            circle.dispose();
+        Fixture fixture = body.createFixture(fixtureDef);
+        body.setLinearDamping(maxVelocity);
+        circle.dispose();
         body.setUserData(this);
     }
 

@@ -2,6 +2,7 @@ package com.gollersoft.ld29;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
 
 /**
@@ -38,6 +39,7 @@ public class Player extends Living {
 
     @Override
     public void render(Batch batch) {
-        batch.draw(texture, getX() - 0.25f, getY() - 0.25f, 0.5f, 0.5f);
+        final TextureRegion x = new TextureRegion(texture);
+        batch.draw(x, getX() - 0.25f, getY() - 0.25f, 0.25f, 0.25f, 0.5f, 0.5f, 1, 1, body.getAngle() * 180f / (float)Math.PI);
     }
 }

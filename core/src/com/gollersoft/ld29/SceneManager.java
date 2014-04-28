@@ -14,6 +14,7 @@ import java.util.HashMap;
 public class SceneManager {
     private final AbstractMap<String, Scene> sceneMap = new HashMap<String, Scene>();
     private Scene activeScene;
+    private int width, height;
 
     public SceneManager() {
     }
@@ -34,7 +35,7 @@ public class SceneManager {
     public void setActiveScene(String name) {
         final Scene scene = sceneMap.get(name);
         Gdx.app.log("SceneManager", "Starting new scene: " + name);
-        if (scene == null) {
+            if (scene == null) {
             Gdx.app.error("SceneManager", "Could not load scene " + name);
             return;
         }
@@ -43,6 +44,7 @@ public class SceneManager {
         }
         activeScene = scene;
         scene.create();
+        scene.resize(width, height);
     }
 
     public void render() {
@@ -50,6 +52,8 @@ public class SceneManager {
     }
 
     public void resize(int width, int height) {
+        this.width = width;
+        this.height = height;
         activeScene.resize(width, height);
     }
 
